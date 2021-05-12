@@ -26,5 +26,5 @@ test = [
     "lxml-stubs"
 ]
 
-[tool.flit.sdist]
-include = ["README.md"]
+# [tool.flit.sdist]
+# include = ["README.md"]
