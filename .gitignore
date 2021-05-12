@@ -143,3 +143,7 @@ cython_debug/
 __pypackages__/
 .mypy_cache/
 .tox/
+
+Pipfile
+Pipfile.lock
+.DS_Store
