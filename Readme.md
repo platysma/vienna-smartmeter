@@ -17,7 +17,7 @@
 ## Installation
 Install with pip:
 
-``pip install ``
+``pip install vienna-smartmeter``
 ## How To Use
 Import the Smartmeter client, provide login information and access available api functions:
 
