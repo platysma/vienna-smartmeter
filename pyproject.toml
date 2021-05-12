@@ -10,6 +10,10 @@ requires-python=">=3.5"
 home-page = "https://github.com/Platysma/vienna-smartmeter"
 module = "smartmeter"
 dist-name = "vienna-smartmeter"
+requires = [
+    "requests >=2.24.0,<3.0.0",
+    "lxml >=4.6.3,<5.0.0"
+]
 
 [tool.flit.metadata.requires-extra]
 test = [
@@ -19,9 +23,5 @@ test = [
     "mypy ==0.812",
     "flake8 >=3.8.3,<4.0.0",
     "black ==20.8b1",
-    "requests >=2.24.0,<3.0.0",
-]
-all = [
-    "requests >=2.24.0,<3.0.0",
-    "lxml >=4.6.3,<5.0.0",
+    "lxml-stubs"
 ]
