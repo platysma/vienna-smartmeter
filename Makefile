@@ -11,9 +11,9 @@ deps:  ## Install dependencies
 	python -m pip install black coverage flake8 flit mccabe mypy pylint pytest tox tox-gh-actions
 
 lint:  ## Lint and static-check
-	python -m flake8 smartmeter
+	python -m flake8 smartmeter --ignore=E501
 	python -m pylint smartmeter
-	python -m mypy smartmeter
+	python -m mypy smartmeter --ignore-missing-imports
 
 publish:  ## Publish to PyPi
 	python -m flit publish

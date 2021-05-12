@@ -1,6 +1,6 @@
 [build-system]
-build-backend = "flit_core.buildapi"
 requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
 
 [tool.flit.metadata]
 author = "Platysma"
@@ -26,5 +26,5 @@ test = [
     "lxml-stubs"
 ]
 
-# [tool.flit.sdist]
-# include = ["README.md"]
+[tool.flit.sdist]
+include = ["README.md"]
