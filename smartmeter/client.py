@@ -91,7 +91,7 @@ class Smartmeter:
         self.logger.debug("REQUEST: {}", url)
 
         headers = {
-            "Authorization": f"Bearer {self.access_token}",
+            "Authorization": "Bearer {self.access_token}",
         }
 
         if data:
@@ -221,4 +221,4 @@ class Smartmeter:
         return self._call_api("w/user/ereignis/{}".format(ereignis_id), method="DELETE")
 
     def __repr__(self):
-        return f"<{self}>"
+        return "<{self}>"
