@@ -22,6 +22,8 @@ Changelog = "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.proj
 python = "^3.6.1"
 requests = "^2.24.0"
 lxml = "^4.6.3"
+aiohttp = { version = "^3.7.4", optional = true }
+async_timeout = { version = "^3.0.1", optional = true }
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
@@ -43,6 +45,9 @@ reorder-python-imports = "^2.6.0"
 pre-commit-hooks = "^4.0.1"
 Pygments = "^2.9.0"
 lxml-stubs = "^0.2.0"
+
+[tool.poetry.extras]
+async = ["aiohttp", "async_timeout"]
 
 [tool.poetry.scripts]
 smartmeter = "smartmeter.__main__:main"
