@@ -10,15 +10,19 @@
 [![Code Quality](https://api.codeclimate.com/v1/badges/3130fa0ba3b7993fbf0a/maintainability)](https://codeclimate.com/github/platysma/vienna-smartmeter)
 
 ## Features
-* Access energy usage for specific meters
-* Get profile information
-* View, edit & delete events (Ereignisse)
+
+- Access energy usage for specific meters
+- Get profile information
+- View, edit & delete events (Ereignisse)
 
 ## Installation
+
 Install with pip:
 
-``pip install vienna-smartmeter``
+`pip install vienna-smartmeter`
+
 ## How To Use
+
 Import the Smartmeter client, provide login information and access available api functions:
 
 ```python
@@ -38,9 +42,11 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Make sure to add or update tests as appropriate.
 
 ## License
->You can check out the full license [here](https://github.com/platysma/vienna-smartmeter/blob/main/LICENSE)
+
+> You can check out the full license [here](https://github.com/platysma/vienna-smartmeter/blob/main/LICENSE)
 
 This project is licensed under the terms of the **MIT** license.
 
 ## Legal
+
 Disclaimer: This is not affliated, endorsed or certified by Wiener Netze. This is an independent and unofficial API. Strictly not for spam. Use at your own risk.
