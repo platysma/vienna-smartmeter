@@ -1,8 +1,8 @@
 """Contains the Smartmeter API Client."""
-
+from datetime import datetime
 import logging
-import datetime
 from urllib import parse
+
 import requests
 from lxml import html
 
@@ -12,18 +12,23 @@ logger = logging.getLogger(__name__)
 
 
 class Smartmeter:
-    """Smartmeter client which contains all functions for authentication and using the api."""
+    """Smartmeter client."""
 
     API_URL = "https://service.wienernetze.at/rest/smp/1.0/"
     API_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
-    AUTH_URL = "https://service.wienerstadtwerke.at/auth/realms/wienernetze/protocol/openid-connect/"
+    AUTH_URL = "https://service.wienerstadtwerke.at/auth/realms/wienernetze/protocol/openid-connect/"  # noqa
 
-    def __init__(self, username, password=None, login=True, **kwargs):
+    def __init__(self, username, password, login=True):
+        """Access the Smartmeter API.
+
+        Args:
+            username (str): Username used for API Login.
+            password (str): Username used for API Login.
+            login (bool, optional): If _login() should be called. Defaults to True.
+        """
         self.username = username
         self.password = password
-        self.api_url = kwargs.pop("api_url", None) or self.API_URL
         self.session = requests.Session()
-        self.logger = logger
 
         if login:
             self._login()
@@ -82,20 +87,20 @@ class Smartmeter:
         return_response=False,
     ):
         if base_url is None:
-            base_url = self.api_url
+            base_url = self.API_URL
         url = "{0}{1}".format(base_url, endpoint)
 
         if query:
             url += ("?" if "?" not in endpoint else "&") + parse.urlencode(query)
 
-        self.logger.debug("REQUEST: {}", url)
+        logger.debug("REQUEST: {}", url)
 
         headers = {
             "Authorization": f"Bearer {self.access_token}",
         }
 
         if data:
-            self.logger.debug("DATA: {}", data)
+            logger.debug("DATA: {}", data)
             headers["Content-Type"] = "application/json"
 
         response = self.session.request(method, url, headers=headers, json=data)
@@ -109,22 +114,25 @@ class Smartmeter:
         return self.zaehlpunkte()[0]["zaehlpunkte"][0]["zaehlpunktnummer"]
 
     def zaehlpunkte(self):
-        """Returns zaehlpunkte for currently logged in user"""
+        """Returns zaehlpunkte for currently logged in user."""
         return self._call_api("m/zaehlpunkte")
 
-    def verbrauch_raw(
-        self, date_from, date_to=datetime.datetime.now(), zaehlpunkt=None
-    ):
-        """Returns energy usage
+    def verbrauch_raw(self, date_from, date_to=None, zaehlpunkt=None):
+        """Returns energy usage.
 
         Args:
-            date_from (datetime.datetime): Starting date for energy usage request
-            date_to (datetime.datetime, optional): Ending date for energy usage request. Defaults to datetime.datetime.now().
-            zaehlpunkt (str, optional): Id for desired smart meter - if None check for first meter in user profile.
+            date_from (datetime): Start date for energy usage request
+            date_to (datetime, optional): End date for energy usage request.
+                Defaults to datetime.now().
+            zaehlpunkt (str, optional): Id for desired smartmeter.
+                If None check for first meter in user profile.
 
         Returns:
-            dict: JSON response of api call to 'm/messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauchRaw'
+            dict: JSON response of api call to
+                'm/messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauchRaw'
         """
+        if date_to is None:
+            date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
         endpoint = "m/messdaten/zaehlpunkt/{}/verbrauchRaw".format(zaehlpunkt)
@@ -135,17 +143,22 @@ class Smartmeter:
         }
         return self._call_api(endpoint, query=query)
 
-    def verbrauch(self, date_from, date_to=datetime.datetime.now(), zaehlpunkt=None):
-        """Returns energy usage
+    def verbrauch(self, date_from, date_to=None, zaehlpunkt=None):
+        """Returns energy usage.
 
         Args:
             date_from (datetime.datetime): Starting date for energy usage request
-            date_to (datetime.datetime, optional): Ending date for energy usage request. Defaults to datetime.datetime.now().
-            zaehlpunkt (str, optional): Id for desired smart meter - if None check for first meter in user profile.
+            date_to (datetime.datetime, optional): Ending date for energy usage request.
+                Defaults to datetime.datetime.now().
+            zaehlpunkt (str, optional): Id for desired smartmeter.
+                If None check for first meter in user profile.
 
         Returns:
-            dict: JSON response of api call to 'm/messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauch'
+            dict: JSON response of api call to
+                'm/messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauch'
         """
+        if date_to is None:
+            date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
         endpoint = "m/messdaten/zaehlpunkt/{}/verbrauch".format(zaehlpunkt)
@@ -160,24 +173,28 @@ class Smartmeter:
         return self._call_api(endpoint, query=query)
 
     def profil(self):
-        """Returns profil of logged in user
+        """Returns profil of logged in user.
 
         Returns:
             dict: JSON response of api call to 'w/user/profile'
         """
         return self._call_api("w/user/profile")
 
-    def ereignisse(self, date_from, date_to=datetime.datetime.now(), zaehlpunkt=None):
-        """Returns events between date_from and date_to of a specific smart meter
+    def ereignisse(self, date_from, date_to=None, zaehlpunkt=None):
+        """Returns events between date_from and date_to of a specific smart meter.
 
         Args:
             date_from (datetime.datetime): Starting date for request
-            date_to (datetime.datetime, optional): Ending date for request. Defaults to datetime.datetime.now().
-            zaehlpunkt (str, optional): Id for desired smart meter - if None check for first meter in user profile.
+            date_to (datetime.datetime, optional): Ending date for request.
+                Defaults to datetime.datetime.now().
+            zaehlpunkt (str, optional): Id for desired smart meter.
+                If is None check for first meter in user profile.
 
         Returns:
             dict: JSON response of api call to 'w/user/ereignisse'
         """
+        if date_to is None:
+            date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
         query = {
@@ -188,10 +205,11 @@ class Smartmeter:
         return self._call_api("w/user/ereignisse", query=query)
 
     def create_ereignis(self, zaehlpunkt, name, date_from, date_to=None):
-        """Creates new event
+        """Creates new event.
 
         Args:
-            zaehlpunkt (str): Id for desired smart meter - if None check for first meter in user profile
+            zaehlpunkt (str): Id for desired smartmeter.
+                If None check for first meter in user profile
             name (str): Event name
             date_from (datetime.datetime): (Starting) date for request
             date_to (datetime.datetime, optional): Ending date for request.
@@ -217,8 +235,5 @@ class Smartmeter:
         return self._call_api("w/user/ereignis", data=data, method="POST")
 
     def delete_ereignis(self, ereignis_id):
-        """Deletes ereignis"""
+        """Deletes ereignis."""
         return self._call_api("w/user/ereignis/{}".format(ereignis_id), method="DELETE")
-
-    def __repr__(self):
-        return f"<{self}>"

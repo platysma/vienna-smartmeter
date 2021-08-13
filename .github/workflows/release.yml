@@ -60,21 +60,20 @@ jobs:
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:
           user: __token__
-          password: {{ "${{ secrets.PYPI_TOKEN }}" }}
+          password: { { "${{ secrets.PYPI_TOKEN }}" } }
 
       - name: Publish package on TestPyPI
         if: "! steps.check-version.outputs.tag"
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:
           user: __token__
-          password: {{ "${{ secrets.TEST_PYPI_TOKEN }}" }}
+          password: { { "${{ secrets.TEST_PYPI_TOKEN }}" } }
           repository_url: https://test.pypi.org/legacy/
 
       - name: Publish the release notes
         uses: release-drafter/release-drafter@v5.15.0
         with:
-          publish: {{ "${{ steps.check-version.outputs.tag != '' }}" }}
-          tag: {{ "${{ steps.check-version.outputs.tag }}" }}
+          publish: { { "${{ steps.check-version.outputs.tag != '' }}" } }
+          tag: { { "${{ steps.check-version.outputs.tag }}" } }
         env:
-          GITHUB_TOKEN: {{ "${{ secrets.GITHUB_TOKEN }}" }}
-          
+          GITHUB_TOKEN: { { "${{ secrets.GITHUB_TOKEN }}" } }
