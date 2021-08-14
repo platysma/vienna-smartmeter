@@ -1,8 +1,8 @@
 """Test cases for Smartmeter client."""
-
-from smartmeter._async.client import AsyncSmartmeter
-from tests.const import DEMO_PASSWORD, DEMO_USERNAME
 import pytest
+from smartmeter._async.client import AsyncSmartmeter
+from tests.const import DEMO_PASSWORD
+from tests.const import DEMO_USERNAME
 
 
 @pytest.fixture()

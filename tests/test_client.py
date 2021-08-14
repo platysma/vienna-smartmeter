@@ -1,10 +1,10 @@
 """Test cases for Smartmeter client."""
-
-from smartmeter.client import Smartmeter
-from tests.const import DEMO_PASSWORD, DEMO_USERNAME
-import pytest
-
 from datetime import datetime
+
+import pytest
+from smartmeter.client import Smartmeter
+from tests.const import DEMO_PASSWORD
+from tests.const import DEMO_USERNAME
 
 
 @pytest.fixture()

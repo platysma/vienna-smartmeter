@@ -1,6 +1,6 @@
 """Contains the Smartmeter API Client."""
-from datetime import datetime
 import logging
+from datetime import datetime
 from urllib import parse
 
 import requests

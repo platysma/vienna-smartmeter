@@ -1,16 +1,16 @@
 """Contains the Async Smartmeter API Client."""
-
-import logging
+import asyncio
 import datetime
 import json
+import logging
+import socket
 from urllib import parse
+
+import aiohttp
+import async_timeout
 from lxml import html
 
 from ..errors import SmartmeterLoginError
-import aiohttp
-import async_timeout
-import asyncio
-import socket
 
 logger = logging.getLogger(__name__)
 

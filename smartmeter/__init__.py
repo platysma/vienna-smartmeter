@@ -6,7 +6,7 @@ from .client import Smartmeter
 
 try:
     __version__ = version(__name__)
-except Exception:
+except Exception:  # noqa
     pass
 
 __all__ = ["Smartmeter"]

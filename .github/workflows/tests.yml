@@ -6,13 +6,8 @@ on:
 
 jobs:
   tests:
-    name:
-      {
-        {
-          "${{ matrix.session }} ${{ matrix.python-version }} / ${{ matrix.os }}",
-        },
-      }
-    runs-on: { { "${{ matrix.os }}" } }
+    name: ${{ matrix.session }} ${{ matrix.python-version }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -34,7 +29,7 @@ jobs:
           - { python-version: 3.9, os: ubuntu-latest, session: "docs-build" }
 
     env:
-      NOXSESSION: { { "${{ matrix.session }}" } }
+      NOXSESSION: ${{ matrix.session }}
 
     steps:
       - name: Check out the repository
@@ -43,7 +38,7 @@ jobs:
       - name: Set up Python {{ "${{ matrix.python-version }}" }}
         uses: actions/setup-python@v2.2.2
         with:
-          python-version: { { "${{ matrix.python-version }}" } }
+          python-version: ${{ matrix.python-version }}
 
       - name: Upgrade pip
         run: |
@@ -74,12 +69,7 @@ jobs:
         if: matrix.session == 'pre-commit'
         with:
           path: ~/.cache/pre-commit
-          key:
-            {
-              {
-                "${{ steps.pre-commit-cache.outputs.result }}-${{ hashFiles('.pre-commit-config.yaml') }}",
-              },
-            }
+          key: ${{ steps.pre-commit-cache.outputs.result }}-${{ hashFiles('.pre-commit-config.yaml') }}
           restore-keys: |
             {{ "${{ steps.pre-commit-cache.outputs.result }}-" }}
       - name: Run Nox

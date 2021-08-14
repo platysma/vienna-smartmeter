@@ -1,5 +1,4 @@
 """Nox sessions."""
-import shutil
 import sys
 from pathlib import Path
 from textwrap import dedent
@@ -31,11 +30,13 @@ nox.options.sessions = (
 )
 
 
-def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
+def activate_virtualenv_in_precommit_hooks(session):
     """Activate virtualenv in hooks installed by pre-commit.
+
     This function patches git hooks installed by pre-commit to activate the
     session's virtual environment. This allows pre-commit to locate hooks in
     that environment when invoked from git.
+
     Args:
         session: The Session object.
     """
