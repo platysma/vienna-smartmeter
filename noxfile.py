@@ -25,8 +25,6 @@ nox.options.sessions = (
     "mypy",
     "tests",
     "typeguard",
-    "xdoctest",
-    "docs-build",
 )
 
 
@@ -114,7 +112,7 @@ def safety(session: Session) -> None:
 @session(python=python_versions)
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
-    args = session.posargs or ["src", "tests", "docs/conf.py"]
+    args = session.posargs or [".", "tests"]
     session.install(".")
     session.install("mypy", "pytest")
     session.run("mypy", *args)
@@ -153,12 +151,3 @@ def typeguard(session: Session) -> None:
     session.install(".")
     session.install("pytest", "typeguard", "pygments")
     session.run("pytest", f"--typeguard-packages={package}", *session.posargs)
-
-
-@session(python=python_versions)
-def xdoctest(session: Session) -> None:
-    """Run examples with xdoctest."""
-    args = session.posargs or ["all"]
-    session.install(".")
-    session.install("xdoctest[colors]")
-    session.run("python", "-m", "xdoctest", package, *args)
