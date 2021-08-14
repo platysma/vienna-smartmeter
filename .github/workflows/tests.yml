@@ -33,7 +33,7 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v2.3.4
 
-      - name: Set up Python {{ "${{ matrix.python-version }}" }}
+      - name: Set up Python "${{ matrix.python-version }}"
         uses: actions/setup-python@v2.2.2
         with:
           python-version: ${{ matrix.python-version }}
@@ -60,7 +60,7 @@ jobs:
           python = "py{}.{}".format(*sys.version_info[:2])
           payload = sys.version.encode() + sys.executable.encode()
           digest = hashlib.sha256(payload).hexdigest()
-          result = {{ '"${{ runner.os }}-{}-{}-pre-commit".format(python, digest[:8])' }}
+          result = "${{ runner.os }}-{}-{}-pre-commit".format(python, digest[:8])
           print("::set-output name=result::{}".format(result))
       - name: Restore pre-commit cache
         uses: actions/cache@v2.1.6
@@ -69,10 +69,10 @@ jobs:
           path: ~/.cache/pre-commit
           key: ${{ steps.pre-commit-cache.outputs.result }}-${{ hashFiles('.pre-commit-config.yaml') }}
           restore-keys: |
-            {{ "${{ steps.pre-commit-cache.outputs.result }}-" }}
+            ${{ steps.pre-commit-cache.outputs.result }}-
       - name: Run Nox
         run: |
-          nox --force-color --python=${{ "{{" }} matrix.python-version {{ "}}" }}
+          nox --force-color --python=${{ matrix.python-version }}
       - name: Upload coverage data
         if: always() && matrix.session == 'tests'
         uses: "actions/upload-artifact@v2.2.4"

@@ -19,6 +19,7 @@ repos:
       - id: check-yaml
         name: Check Yaml
         entry: check-yaml
+        args: [--allow-multiple-documents]
         language: system
         types: [yaml]
       - id: end-of-file-fixer
@@ -38,7 +39,7 @@ repos:
         entry: reorder-python-imports
         language: system
         types: [python]
-        args: [--application-directories=src]
+        args: [--application-directories=smartmeter]
       - id: trailing-whitespace
         name: Trim Trailing Whitespace
         entry: trailing-whitespace-fixer
