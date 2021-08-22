@@ -1,9 +1,9 @@
 """Contains the Async Smartmeter API Client."""
 import asyncio
-from datetime import datetime
 import json
 import logging
 import socket
+from datetime import datetime
 from urllib import parse
 
 import aiohttp
