@@ -147,3 +147,4 @@ __pypackages__/
 Pipfile
 Pipfile.lock
 .DS_Store
+/src/*.egg-info/

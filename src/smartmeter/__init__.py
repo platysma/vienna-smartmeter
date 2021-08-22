@@ -1,5 +1,5 @@
 """Unofficial Python wrapper for the Wiener Netze Smart Meter private API."""
-import sys
+
 from importlib.metadata import version
 
 from .client import Smartmeter
@@ -12,8 +12,6 @@ except Exception:  # noqa
 __all__ = ["Smartmeter"]
 
 try:
-    if sys.version_info < (3, 6):
-        raise ImportError
 
     from ._async.client import AsyncSmartmeter
 

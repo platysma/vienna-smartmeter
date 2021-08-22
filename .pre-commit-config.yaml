@@ -39,7 +39,7 @@ repos:
         entry: reorder-python-imports
         language: system
         types: [python]
-        args: [--application-directories=smartmeter]
+        args: [--application-directories=src]
       - id: trailing-whitespace
         name: Trim Trailing Whitespace
         entry: trailing-whitespace-fixer

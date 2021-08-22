@@ -1,6 +1,6 @@
 """Contains the Async Smartmeter API Client."""
 import asyncio
-import datetime
+from datetime import datetime
 import json
 import logging
 import socket
@@ -88,30 +88,33 @@ class AsyncSmartmeter:
 
         logger.debug("Successfully authenticated Smart Meter API")
 
-    async def async_get_access_token(self) -> str:
+    async def async_get_access_token(self):
         """Return a valid access token."""
         pass
 
-    def _dt_string(self, datetime_string):
-        return datetime_string.strftime(self.API_DATE_FORMAT)[:-3] + "Z"
+    def _dt_string(self, dt):
+        return dt.strftime(self.API_DATE_FORMAT)[:-3] + "Z"
 
-    def _get_first_zaehlpunkt(self) -> str:
+    def _get_first_zaehlpunkt(self):
         """Get first zaehlpunkt."""
         return self.get_zaehlpunkte()[0]["zaehlpunkte"][0]["zaehlpunktnummer"]
 
-    async def get_zaehlpunkte(self) -> list:
+    async def get_zaehlpunkte(self):
         """Get zaehlpunkte for currently logged in user."""
         return await self._request("m/zaehlpunkte")
 
     async def get_verbrauch_raw(
-        self, date_from: datetime, date_to=None, zaehlpunkt=None
-    ) -> dict:
+        self,
+        date_from,
+        date_to=None,
+        zaehlpunkt=None,
+    ):
         """Get verbrauch_raw from the API."""
         if date_to is None:
-            date_to = datetime.datetime.now()
+            date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
-        endpoint = "m/messdaten/zaehlpunkt/{}/verbrauchRaw".format(zaehlpunkt)
+        endpoint = f"m/messdaten/zaehlpunkt/{zaehlpunkt}/verbrauchRaw"
         query = {
             "dateFrom": self._dt_string(date_from),
             "dateTo": self._dt_string(date_to),
@@ -119,12 +122,17 @@ class AsyncSmartmeter:
         }
         return await self._request(endpoint, query=query)
 
-    async def profil(self) -> dict:
+    async def profil(self):
         """Get profil of logged in user."""
         return await self._request("w/user/profile")
 
     async def _request(
-        self, endpoint, base_url=None, method="GET", data=None, query=None
+        self,
+        endpoint,
+        base_url=None,
+        method="GET",
+        data=None,
+        query=None,
     ):
         """Send requests to the Smartmeter API."""
         if base_url is None:
