@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "Vienna Smart Meter"
+name = "smartmeter"
 version = "0.1.0"
 description = "Python library to access the Wiener Netze Smart Meter private API."
 authors = ["Platysma <platysma.dev@gmail.com>"]
@@ -16,7 +16,7 @@ classifiers = [
 ]
 
 [tool.poetry.urls]
-Changelog = "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.project_name}}/releases"
+Changelog = "https://github.com/platysma/vienna-smartmeter/releases"
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
@@ -30,7 +30,6 @@ pytest = "^6.2.4"
 pytest-asyncio = "^0.15.1"
 coverage = {extras = ["toml"], version = "^5.4"}
 safety = "^1.10.3"
-mypy = "^0.910"
 typeguard = "^2.12.1"
 xdoctest = {extras = ["colors"], version = "^0.15.5"}
 pre-commit = "^2.13.0"
@@ -50,11 +49,8 @@ lxml-stubs = "^0.2.0"
 [tool.poetry.extras]
 async = ["aiohttp", "async_timeout"]
 
-[tool.poetry.scripts]
-smartmeter = "smartmeter.__main__:main"
-
 [tool.coverage.paths]
-source = ["smartmeter", "*/site-packages"]
+source = ["src", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
@@ -62,14 +58,7 @@ source = ["smartmeter"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 100
-
-[tool.mypy]
-strict = true
-pretty = true
-show_column_numbers = true
-show_error_codes = true
-show_error_context = true
+fail_under = 60
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
