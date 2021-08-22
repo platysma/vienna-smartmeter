@@ -9,7 +9,7 @@ on:
 jobs:
   release:
     name: Release
-    runs-on: ubunt
+    runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2.3.4
