@@ -24,6 +24,7 @@ requests = "^2.24.0"
 lxml = "^4.6.3"
 aiohttp = { version = "^3.7.4", optional = true }
 async_timeout = { version = "^3.0.1", optional = true }
+importlib-metadata = "^4.6.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"

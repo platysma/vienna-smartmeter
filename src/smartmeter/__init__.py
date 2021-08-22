@@ -1,5 +1,8 @@
 """Unofficial Python wrapper for the Wiener Netze Smart Meter private API."""
-from importlib.metadata import version
+try:
+    from importlib.metadata import version
+except ModuleNotFoundError:
+    from importlib_metadata import version
 
 from .client import Smartmeter
 

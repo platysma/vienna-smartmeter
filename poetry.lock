@@ -389,7 +389,7 @@ idna = ">=2.0"
 name = "importlib-metadata"
 version = "4.6.4"
 description = "Read metadata from Python packages"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -903,7 +903,7 @@ typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 name = "zipp"
 version = "3.5.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -917,7 +917,7 @@ async = ["aiohttp", "async_timeout"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.1"
-content-hash = "59136438d54c6720fd6203ef02f3869c233dbe348d83f0bb8c4fa272a5c805d6"
+content-hash = "03830aa2dd203f6ee7690d60073edb710c65a2a183f7d22e416631c4b57568c0"
 
 [metadata.files]
 aiohttp = [
