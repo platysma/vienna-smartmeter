@@ -813,18 +813,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "typeguard"
-version = "2.12.1"
-description = "Run-time type checker for Python"
-category = "dev"
-optional = false
-python-versions = ">=3.5.3"
-
-[package.extras]
-doc = ["sphinx-rtd-theme", "sphinx-autodoc-typehints (>=1.2.0)"]
-test = ["pytest", "typing-extensions", "mypy"]
-
-[[package]]
 name = "typing-extensions"
 version = "3.10.0.0"
 description = "Backported and Experimental Type Hints for Python 3.5+"
@@ -917,7 +905,7 @@ async = ["aiohttp", "async_timeout"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.1"
-content-hash = "03830aa2dd203f6ee7690d60073edb710c65a2a183f7d22e416631c4b57568c0"
+content-hash = "35f39d375ec03f1e7f10afb8f39423e4ce535ce664e3dfea370a328eb9624fb4"
 
 [metadata.files]
 aiohttp = [
@@ -1476,10 +1464,6 @@ typed-ast = [
     {file = "typed_ast-1.4.3-cp39-cp39-win32.whl", hash = "sha256:209596a4ec71d990d71d5e0d312ac935d86930e6eecff6ccc7007fe54d703808"},
     {file = "typed_ast-1.4.3-cp39-cp39-win_amd64.whl", hash = "sha256:9c6d1a54552b5330bc657b7ef0eae25d00ba7ffe85d9ea8ae6540d2197a3788c"},
     {file = "typed_ast-1.4.3.tar.gz", hash = "sha256:fb1bbeac803adea29cedd70781399c99138358c26d05fcbd23c13016b7f5ec65"},
-]
-typeguard = [
-    {file = "typeguard-2.12.1-py3-none-any.whl", hash = "sha256:cc15ef2704c9909ef9c80e19c62fb8468c01f75aad12f651922acf4dbe822e02"},
-    {file = "typeguard-2.12.1.tar.gz", hash = "sha256:c2af8b9bdd7657f4bd27b45336e7930171aead796711bc4cfc99b4731bb9d051"},
 ]
 typing-extensions = [
     {file = "typing_extensions-3.10.0.0-py2-none-any.whl", hash = "sha256:0ac0f89795dd19de6b97debb0c6af1c70987fd80a2d62d1958f7e56fcc31b497"},

@@ -20,7 +20,6 @@ jobs:
           - { python-version: 3.6, os: ubuntu-latest, session: "tests" }
           - { python-version: 3.9, os: windows-latest, session: "tests" }
           - { python-version: 3.9, os: macos-latest, session: "tests" }
-          - { python-version: 3.9, os: ubuntu-latest, session: "typeguard" }
 
     env:
       NOXSESSION: ${{ matrix.session }}
