@@ -16,7 +16,7 @@ except ImportError:
     raise SystemExit(dedent(message))
 
 
-package = "smartmeter"
+package = "vienna_smartmeter"
 python_versions = ["3.9", "3.8", "3.7", "3.6"]
 nox.needs_version = ">= 2021.6.6"
 nox.options.sessions = (

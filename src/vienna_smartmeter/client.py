@@ -29,6 +29,7 @@ class Smartmeter:
         self.username = username
         self.password = password
         self.session = requests.Session()
+        self._access_token = None
 
         if login:
             self._login()
@@ -72,7 +73,7 @@ class Smartmeter:
             },
         )
 
-        self.access_token = result.json()["access_token"]
+        self._access_token = result.json()["access_token"]
 
     def _dt_string(self, datetime_string):
         return datetime_string.strftime(self.API_DATE_FORMAT)[:-3] + "Z"
@@ -96,7 +97,7 @@ class Smartmeter:
         logger.debug("REQUEST: {}", url)
 
         headers = {
-            "Authorization": f"Bearer {self.access_token}",
+            "Authorization": f"Bearer {self._access_token}",
         }
 
         if data:

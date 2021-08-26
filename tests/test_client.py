@@ -5,7 +5,7 @@ import pytest
 from tests.const import DEMO_PASSWORD
 from tests.const import DEMO_USERNAME
 
-from smartmeter.client import Smartmeter
+from vienna_smartmeter.client import Smartmeter
 
 
 @pytest.fixture()
