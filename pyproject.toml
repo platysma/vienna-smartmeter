@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vienna-smartmeter"
-version = "0.2.0"
+version = "0.3.0"
 description = "Python library to access the Wiener Netze Smart Meter private API."
 authors = ["Platysma <platysma.dev@gmail.com>"]
 license = "MIT"
