@@ -19,3 +19,11 @@ async def client():
 async def test_confirm_login(client):
     """Tests if login is successful."""
     assert len(await client.profil()) > 0
+
+
+@pytest.mark.asyncio
+async def test_zaehlpunkte(client):
+    """Tests if any zaehlpunkte exist."""
+    zp = await client.zaehlpunkte()
+    assert len(zp) > 0
+    assert len(zp[0]["zaehlpunkte"]) > 0
