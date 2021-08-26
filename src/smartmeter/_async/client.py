@@ -84,7 +84,7 @@ class AsyncSmartmeter:
                 raise SmartmeterLoginError(
                     "Authentication failed. Check user credentials."
                 )
-            self.access_token = json.loads(await response.text())["access_token"]
+            self._access_token = json.loads(await response.text())["access_token"]
 
         logger.debug("Successfully authenticated Smart Meter API")
 
@@ -145,7 +145,7 @@ class AsyncSmartmeter:
 
         logger.debug(f"REQUEST: {url}")
 
-        headers = {"Authorization": f"Bearer {self.access_token}"}
+        headers = {"Authorization": f"Bearer {self._access_token}"}
 
         try:
             async with async_timeout.timeout(TIMEOUT):
