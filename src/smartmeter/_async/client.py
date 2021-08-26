@@ -24,16 +24,19 @@ class AsyncSmartmeter:
     API_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
     AUTH_URL = "https://service.wienerstadtwerke.at/auth/realms/wienernetze/protocol/openid-connect/"  # noqa
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, session=None, timeout=TIMEOUT):
         """Access the Smart Meter API asynchronously.
 
         Args:
             username (str): Username used for API Login
             password (str): Password used for API Login
+            session (aiohttp.ClientSession): An optional session object
+            timeout (int): Timeout for all session calls. Defaults to TIMEOUT.
         """
         self._username = username
         self._password = password
-        self._session = aiohttp.ClientSession()
+        self._session = session or aiohttp.ClientSession()
+        self._timeout = timeout
         self._access_token = None
 
     async def _get_login_action(self):
@@ -84,7 +87,7 @@ class AsyncSmartmeter:
                 raise SmartmeterLoginError(
                     "Authentication failed. Check user credentials."
                 )
-            self.access_token = json.loads(await response.text())["access_token"]
+            self._access_token = json.loads(await response.text())["access_token"]
 
         logger.debug("Successfully authenticated Smart Meter API")
 
@@ -126,6 +129,10 @@ class AsyncSmartmeter:
         """Get profil of logged in user."""
         return await self._request("w/user/profile")
 
+    async def zaehlpunkte(self):
+        """Returns zaehlpunkte for currently logged in user."""
+        return await self._request("m/zaehlpunkte")
+
     async def _request(
         self,
         endpoint,
@@ -145,10 +152,10 @@ class AsyncSmartmeter:
 
         logger.debug(f"REQUEST: {url}")
 
-        headers = {"Authorization": f"Bearer {self.access_token}"}
+        headers = {"Authorization": f"Bearer {self._access_token}"}
 
         try:
-            async with async_timeout.timeout(TIMEOUT):
+            async with async_timeout.timeout(self._timeout):
                 response = await self._session.request(
                     method, url, headers=headers, json=data
                 )
