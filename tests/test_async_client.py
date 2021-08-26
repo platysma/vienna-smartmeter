@@ -3,7 +3,7 @@ import pytest
 from tests.const import DEMO_PASSWORD
 from tests.const import DEMO_USERNAME
 
-from smartmeter._async.client import AsyncSmartmeter
+from vienna_smartmeter._async.client import AsyncSmartmeter
 
 
 @pytest.fixture()
