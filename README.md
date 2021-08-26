@@ -21,18 +21,29 @@ Install with pip:
 
 `pip install vienna-smartmeter`
 
+An async package is provided and can be installed with the 'async' extra:
+
+`pip install vienna-smartmeter[async]`
+
 ## How To Use
 
 Import the Smartmeter client, provide login information and access available api functions:
 
 ```python
-from smartmeter import Smartmeter
+from vienna_smartmeter import Smartmeter
 
 username = 'YOUR_LOGIN_USER_NAME'
 password = 'YOUR_PASSWORD'
 
 api = Smartmeter(username, password)
 print(api.profil())
+```
+
+The asnyc package can be imported by replacing Smartmeter with AsyncSmartmeter.
+
+```python
+from vienna_smartmeter import AsyncSmartmeter
+
 ```
 
 ## Contributing
