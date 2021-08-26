@@ -24,16 +24,17 @@ class AsyncSmartmeter:
     API_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
     AUTH_URL = "https://service.wienerstadtwerke.at/auth/realms/wienernetze/protocol/openid-connect/"  # noqa
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, session=None):
         """Access the Smart Meter API asynchronously.
 
         Args:
             username (str): Username used for API Login
             password (str): Password used for API Login
+            session (aiohttp.ClientSession): An optional session object
         """
         self._username = username
         self._password = password
-        self._session = aiohttp.ClientSession()
+        self._session = session or aiohttp.ClientSession()
         self._access_token = None
 
     async def _get_login_action(self):
