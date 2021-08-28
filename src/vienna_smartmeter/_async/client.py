@@ -161,7 +161,7 @@ class AsyncSmartmeter:
                 )
                 logger.debug(f"REQUEST: {response}")
                 if response.status == 401:
-                    await self._refresh_token()
+                    await self.refresh_token()
                     return await self._request(endpoint, base_url, method, data, query)
                 return await response.json()
 
