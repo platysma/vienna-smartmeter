@@ -133,6 +133,10 @@ class AsyncSmartmeter:
         """Returns zaehlpunkte for currently logged in user."""
         return await self._request("m/zaehlpunkte")
 
+    async def welcome(self):
+        """Returns response from 'welcome' endpoint."""
+        return await self._request("m/zaehlpunkt/default/welcome")
+
     async def _request(
         self,
         endpoint,

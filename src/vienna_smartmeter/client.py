@@ -118,6 +118,10 @@ class Smartmeter:
         """Returns zaehlpunkte for currently logged in user."""
         return self._call_api("m/zaehlpunkte")
 
+    def welcome(self):
+        """Returns response from 'welcome' endpoint."""
+        return self._call_api("m/zaehlpunkt/default/welcome")
+
     def verbrauch_raw(self, date_from, date_to=None, zaehlpunkt=None):
         """Returns energy usage.
 
