@@ -29,7 +29,7 @@ importlib-metadata = "^4.6.4"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
 pytest-asyncio = "^0.15.1"
-coverage = {extras = ["toml"], version = "^5.4"}
+coverage = {extras = ["toml"], version = "^6.0"}
 safety = "^1.10.3"
 xdoctest = {extras = ["colors"], version = "^0.15.5"}
 pre-commit = "^2.14.1"
