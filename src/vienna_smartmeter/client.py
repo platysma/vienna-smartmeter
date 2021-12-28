@@ -14,9 +14,9 @@ logger = logging.getLogger(__name__)
 class Smartmeter:
     """Smartmeter client."""
 
-    API_URL = "https://service.wienernetze.at/rest/smp/1.0/"
+    API_URL = "https://api.wstw.at/gateway/WN_SMART_METER_PORTAL_API_B2C/1.0/"
     API_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
-    AUTH_URL = "https://service.wienerstadtwerke.at/auth/realms/wienernetze/protocol/openid-connect/"  # noqa
+    AUTH_URL = "https://log.wien/auth/realms/logwien/protocol/openid-connect/"  # noqa
 
     def __init__(self, username, password, login=True):
         """Access the Smartmeter API.
@@ -36,7 +36,7 @@ class Smartmeter:
 
     def _login(self):
         args = {
-            "client_id": "client-smp-public",
+            "client_id": "wn-smartmeter",
             "redirect_uri": "https://www.wienernetze.at/wnapp/smapp/",
             "response_mode": "fragment",
             "response_type": "code",
@@ -68,7 +68,7 @@ class Smartmeter:
             data={
                 "code": code,
                 "grant_type": "authorization_code",
-                "client_id": "client-smp-public",
+                "client_id": "wn-smartmeter",
                 "redirect_uri": "https://www.wienernetze.at/wnapp/smapp/",
             },
         )
@@ -98,6 +98,7 @@ class Smartmeter:
 
         headers = {
             "Authorization": f"Bearer {self._access_token}",
+            "X-Gateway-APIKey": "afb0be74-6455-44f5-a34d-6994223020ba",
         }
 
         if data:
@@ -116,11 +117,11 @@ class Smartmeter:
 
     def zaehlpunkte(self):
         """Returns zaehlpunkte for currently logged in user."""
-        return self._call_api("m/zaehlpunkte")
+        return self._call_api("zaehlpunkte")
 
     def welcome(self):
         """Returns response from 'welcome' endpoint."""
-        return self._call_api("m/zaehlpunkt/default/welcome")
+        return self._call_api("zaehlpunkt/default/welcome")
 
     def verbrauch_raw(self, date_from, date_to=None, zaehlpunkt=None):
         """Returns energy usage.
@@ -134,13 +135,13 @@ class Smartmeter:
 
         Returns:
             dict: JSON response of api call to
-                'm/messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauchRaw'
+                'messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauchRaw'
         """
         if date_to is None:
             date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
-        endpoint = "m/messdaten/zaehlpunkt/{}/verbrauchRaw".format(zaehlpunkt)
+        endpoint = "messdaten/zaehlpunkt/{}/verbrauchRaw".format(zaehlpunkt)
         query = {
             "dateFrom": self._dt_string(date_from),
             "dateTo": self._dt_string(date_to),
@@ -160,13 +161,13 @@ class Smartmeter:
 
         Returns:
             dict: JSON response of api call to
-                'm/messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauch'
+                'messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauch'
         """
         if date_to is None:
             date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
-        endpoint = "m/messdaten/zaehlpunkt/{}/verbrauch".format(zaehlpunkt)
+        endpoint = "messdaten/zaehlpunkt/{}/verbrauch".format(zaehlpunkt)
         query = {
             "dateFrom": self._dt_string(date_from),
             "dateTo": self._dt_string(date_to),
