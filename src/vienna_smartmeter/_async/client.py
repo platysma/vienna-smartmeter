@@ -20,9 +20,10 @@ TIMEOUT = 10
 class AsyncSmartmeter:
     """Async Smartmeter Client."""
 
-    API_URL = "https://service.wienernetze.at/rest/smp/1.0/"
+    API_URL_WSTW = "https://api.wstw.at/gateway/WN_SMART_METER_PORTAL_API_B2C/1.0/"
+    API_URL_WN = "https://service.wienernetze.at/rest/smp/1.0/"
     API_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
-    AUTH_URL = "https://service.wienerstadtwerke.at/auth/realms/wienernetze/protocol/openid-connect/"  # noqa
+    AUTH_URL = "https://log.wien/auth/realms/logwien/protocol/openid-connect/"  # noqa
 
     def __init__(self, username, password, session=None, timeout=TIMEOUT):
         """Access the Smart Meter API asynchronously.
@@ -41,7 +42,7 @@ class AsyncSmartmeter:
 
     async def _get_login_action(self):
         args = {
-            "client_id": "client-smp-public",
+            "client_id": "wn-smartmeter",
             "redirect_uri": "https://www.wienernetze.at/wnapp/smapp/",
             "response_mode": "fragment",
             "response_type": "code",
@@ -79,7 +80,7 @@ class AsyncSmartmeter:
             data={
                 "code": await self._get_auth_code(),
                 "grant_type": "authorization_code",
-                "client_id": "client-smp-public",
+                "client_id": "wn-smartmeter",
                 "redirect_uri": "https://www.wienernetze.at/wnapp/smapp/",
             },
         ) as response:
@@ -104,7 +105,7 @@ class AsyncSmartmeter:
 
     async def get_zaehlpunkte(self):
         """Get zaehlpunkte for currently logged in user."""
-        return await self._request("m/zaehlpunkte")
+        return await self._request("zaehlpunkte")
 
     async def get_verbrauch_raw(
         self,
@@ -117,7 +118,7 @@ class AsyncSmartmeter:
             date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
-        endpoint = f"m/messdaten/zaehlpunkt/{zaehlpunkt}/verbrauchRaw"
+        endpoint = f"messdaten/zaehlpunkt/{zaehlpunkt}/verbrauchRaw"
         query = {
             "dateFrom": self._dt_string(date_from),
             "dateTo": self._dt_string(date_to),
@@ -127,15 +128,15 @@ class AsyncSmartmeter:
 
     async def profil(self):
         """Get profil of logged in user."""
-        return await self._request("w/user/profile")
+        return await self._request("w/user/profile", base_url=self.API_URL_WN)
 
     async def zaehlpunkte(self):
         """Returns zaehlpunkte for currently logged in user."""
-        return await self._request("m/zaehlpunkte")
+        return await self._request("zaehlpunkte")
 
     async def welcome(self):
         """Returns response from 'welcome' endpoint."""
-        return await self._request("m/zaehlpunkt/default/welcome")
+        return await self._request("zaehlpunkt/default/welcome")
 
     async def _request(
         self,
@@ -147,7 +148,7 @@ class AsyncSmartmeter:
     ):
         """Send requests to the Smartmeter API."""
         if base_url is None:
-            base_url = self.API_URL
+            base_url = self.API_URL_WSTW
         url = "{0}{1}".format(base_url, endpoint)
 
         if query:
@@ -156,7 +157,10 @@ class AsyncSmartmeter:
 
         logger.debug(f"REQUEST: {url}")
 
-        headers = {"Authorization": f"Bearer {self._access_token}"}
+        headers = {
+            "Authorization": f"Bearer {self._access_token}",
+            "X-Gateway-APIKey": "afb0be74-6455-44f5-a34d-6994223020ba",
+        }
 
         try:
             async with async_timeout.timeout(self._timeout):
