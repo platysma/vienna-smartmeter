@@ -31,7 +31,7 @@ pytest = "^6.2.4"
 pytest-asyncio = "^0.15.1"
 coverage = {extras = ["toml"], version = "^5.4"}
 safety = "^1.10.3"
-xdoctest = {extras = ["colors"], version = "^0.15.5"}
+xdoctest = {extras = ["colors"], version = "^1.0.0"}
 pre-commit = "^2.14.1"
 flake8 = "^3.9.2"
 black = "^20.8b1"
