@@ -280,4 +280,4 @@ class Smartmeter:
 
     def delete_ereignis(self, ereignis_id):
         """Deletes ereignis."""
-        return self._call_api_wn("w/user/ereignis/{}".format(ereignis_id), method="DELETE")
+        return self._call_api_wn("w/user/ereignis/{}".format(ereignis_id), method="DELETE", return_response=True)
