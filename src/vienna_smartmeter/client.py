@@ -148,11 +148,11 @@ class Smartmeter:
 
     def _get_first_zaehlpunkt(self):
         return self.zaehlpunkte()[0]["zaehlpunkte"][0]["zaehlpunktnummer"]
-    
+
     def customerid(self):
         """Returns 'geschaeftspartner' = CustomerID for currently logged in user."""
         return self._call_api_wn("w/user/profile")["defaultGeschaeftspartnerRegistration"]["geschaeftspartner"]
-           
+
     def zaehlpunkte(self):
         """Returns zaehlpunkte for currently logged in user."""
         return self._call_api_wstw("zaehlpunkte")
