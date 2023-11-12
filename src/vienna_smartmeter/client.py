@@ -253,7 +253,6 @@ class Smartmeter:
 
         Args:
             zaehlpunkt (str): Id for desired smartmeter.
-                If None check for first meter in user profile
             name (str): Event name
             date_from (datetime.datetime): (Starting) date for request
             date_to (datetime.datetime, optional): Ending date for request.
