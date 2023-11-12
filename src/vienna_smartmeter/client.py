@@ -148,7 +148,11 @@ class Smartmeter:
 
     def _get_first_zaehlpunkt(self):
         return self.zaehlpunkte()[0]["zaehlpunkte"][0]["zaehlpunktnummer"]
-
+    
+    def customerid(self):
+        """Returns 'geschaeftspartner' = CustomerID for currently logged in user."""
+        return self._call_api_wn("w/user/profile")["defaultGeschaeftspartnerRegistration"]["geschaeftspartner"]
+           
     def zaehlpunkte(self):
         """Returns zaehlpunkte for currently logged in user."""
         return self._call_api_wstw("zaehlpunkte")
@@ -169,13 +173,13 @@ class Smartmeter:
 
         Returns:
             dict: JSON response of api call to
-                'messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauchRaw'
+                'messdaten/CUSTOMERID/ZAEHLPUNKT/verbrauchRaw'
         """
         if date_to is None:
             date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
-        endpoint = "messdaten/zaehlpunkt/{}/verbrauchRaw".format(zaehlpunkt)
+        endpoint = "messdaten/{0}/{1}/verbrauchRaw".format(self.customerid(),zaehlpunkt)
         query = {
             "dateFrom": self._dt_string(date_from),
             "dateTo": self._dt_string(date_to),
@@ -195,13 +199,13 @@ class Smartmeter:
 
         Returns:
             dict: JSON response of api call to
-                'messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauch'
+                'messdaten/CUSTOMERID/ZAEHLPUNKT/verbrauch'
         """
         if date_to is None:
             date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
-        endpoint = "messdaten/zaehlpunkt/{}/verbrauch".format(zaehlpunkt)
+        endpoint = "messdaten/{0}/{1}/verbrauch".format(self.customerid(),zaehlpunkt)
         query = {
             "dateFrom": self._dt_string(date_from),
             "dateTo": self._dt_string(date_to),
