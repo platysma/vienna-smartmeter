@@ -157,10 +157,6 @@ class Smartmeter:
         """Returns zaehlpunkte for currently logged in user."""
         return self._call_api_wstw("zaehlpunkte")
 
-    def welcome(self):
-        """Returns response from 'welcome' endpoint."""
-        return self._call_api_wstw("zaehlpunkt/default/welcome")
-
     def baseInformation(self):
         """Returns response from 'baseInformation' endpoint."""
         return self._call_api_wstw("zaehlpunkt/baseInformation")
@@ -168,6 +164,10 @@ class Smartmeter:
     def consumptions(self):
         """Returns response from 'consumptions' endpoint."""
         return self._call_api_wstw("zaehlpunkt/consumptions")
+
+    def pmaxReadings(self):
+        """Returns response from 'pmaxReadings' endpoint."""
+        return self._call_api_wstw("zaehlpunkt/pmaxReadings")
 
     def meterReadings(self):
         """Returns response from 'meterReadings' endpoint."""
