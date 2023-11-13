@@ -103,6 +103,10 @@ class AsyncSmartmeter:
         """Get first zaehlpunkt."""
         return self.get_zaehlpunkte()[0]["zaehlpunkte"][0]["zaehlpunktnummer"]
 
+    def _get_customerid(self):
+        """Returns 'geschaeftspartner' = CustomerID for currently logged in user."""
+        return self.profil()["defaultGeschaeftspartnerRegistration"]["geschaeftspartner"]
+
     async def get_zaehlpunkte(self):
         """Get zaehlpunkte for currently logged in user."""
         return await self._request("zaehlpunkte")
@@ -118,7 +122,7 @@ class AsyncSmartmeter:
             date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
-        endpoint = f"messdaten/zaehlpunkt/{zaehlpunkt}/verbrauchRaw"
+        endpoint = f"messdaten/{_get_customerid()}/{zaehlpunkt}/verbrauchRaw"
         query = {
             "dateFrom": self._dt_string(date_from),
             "dateTo": self._dt_string(date_to),

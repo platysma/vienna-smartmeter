@@ -149,13 +149,29 @@ class Smartmeter:
     def _get_first_zaehlpunkt(self):
         return self.zaehlpunkte()[0]["zaehlpunkte"][0]["zaehlpunktnummer"]
 
+    def _get_customerid(self):
+        """Returns 'geschaeftspartner' = CustomerID for currently logged in user."""
+        return self.profil()["defaultGeschaeftspartnerRegistration"]["geschaeftspartner"]
+
     def zaehlpunkte(self):
         """Returns zaehlpunkte for currently logged in user."""
         return self._call_api_wstw("zaehlpunkte")
 
-    def welcome(self):
-        """Returns response from 'welcome' endpoint."""
-        return self._call_api_wstw("zaehlpunkt/default/welcome")
+    def baseInformation(self):
+        """Returns response from 'baseInformation' endpoint."""
+        return self._call_api_wstw("zaehlpunkt/baseInformation")
+
+    def consumptions(self):
+        """Returns response from 'consumptions' endpoint."""
+        return self._call_api_wstw("zaehlpunkt/consumptions")
+
+    def pmaxReadings(self):
+        """Returns response from 'pmaxReadings' endpoint."""
+        return self._call_api_wstw("zaehlpunkt/pmaxReadings")
+
+    def meterReadings(self):
+        """Returns response from 'meterReadings' endpoint."""
+        return self._call_api_wstw("zaehlpunkt/meterReadings")
 
     def verbrauch_raw(self, date_from, date_to=None, zaehlpunkt=None):
         """Returns energy usage.
@@ -169,13 +185,13 @@ class Smartmeter:
 
         Returns:
             dict: JSON response of api call to
-                'messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauchRaw'
+                'messdaten/CUSTOMERID/ZAEHLPUNKT/verbrauchRaw'
         """
         if date_to is None:
             date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
-        endpoint = "messdaten/zaehlpunkt/{}/verbrauchRaw".format(zaehlpunkt)
+        endpoint = "messdaten/{0}/{1}/verbrauchRaw".format(self._get_customerid(),zaehlpunkt)
         query = {
             "dateFrom": self._dt_string(date_from),
             "dateTo": self._dt_string(date_to),
@@ -195,13 +211,13 @@ class Smartmeter:
 
         Returns:
             dict: JSON response of api call to
-                'messdaten/zaehlpunkt/ZAEHLPUNKT/verbrauch'
+                'messdaten/CUSTOMERID/ZAEHLPUNKT/verbrauch'
         """
         if date_to is None:
             date_to = datetime.now()
         if zaehlpunkt is None:
             zaehlpunkt = self._get_first_zaehlpunkt()
-        endpoint = "messdaten/zaehlpunkt/{}/verbrauch".format(zaehlpunkt)
+        endpoint = "messdaten/{0}/{1}/verbrauch".format(self._get_customerid(),zaehlpunkt)
         query = {
             "dateFrom": self._dt_string(date_from),
             "dateTo": self._dt_string(date_to),
@@ -249,7 +265,6 @@ class Smartmeter:
 
         Args:
             zaehlpunkt (str): Id for desired smartmeter.
-                If None check for first meter in user profile
             name (str): Event name
             date_from (datetime.datetime): (Starting) date for request
             date_to (datetime.datetime, optional): Ending date for request.
@@ -276,4 +291,4 @@ class Smartmeter:
 
     def delete_ereignis(self, ereignis_id):
         """Deletes ereignis."""
-        return self._call_api_wn("w/user/ereignis/{}".format(ereignis_id), method="DELETE")
+        return self._call_api_wn("w/user/ereignis/{}".format(ereignis_id), method="DELETE", return_response=True)
