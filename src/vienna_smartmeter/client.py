@@ -163,15 +163,15 @@ class Smartmeter:
 
     def baseInformation(self):
         """Returns response from 'baseInformation' endpoint."""
-        return self._call_api("zaehlpunkt/baseInformation")
+        return self._call_api_wstw("zaehlpunkt/baseInformation")
 
     def consumptions(self):
         """Returns response from 'consumptions' endpoint."""
-        return self._call_api("zaehlpunkt/consumptions")
+        return self._call_api_wstw("zaehlpunkt/consumptions")
 
     def meterReadings(self):
         """Returns response from 'meterReadings' endpoint."""
-        return self._call_api("zaehlpunkt/meterReadings")
+        return self._call_api_wstw("zaehlpunkt/meterReadings")
 
     def verbrauch_raw(self, date_from, date_to=None, zaehlpunkt=None):
         """Returns energy usage.
